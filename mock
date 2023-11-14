@@ -1,0 +1,88 @@
+// Given two strings s and p, return an array of all the start indices of p's anagrams in s. 
+// You may return the answer in any order.
+
+// An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, 
+// typically using all the original letters exactly once.
+
+// Example 1:
+
+// Input: s = "cbaebabacd", p = "abc"
+// Output: [0,6]
+// Explanation:
+// The substring with start index = 0 is "cba", which is an anagram of "abc".
+// The substring with start index = 6 is "bac", which is an anagram of "abc".
+
+// start end 
+// m*n
+// hashmap 
+// m
+
+// diff = 2
+// mapS freq s
+// mapP freq p
+//  a:1
+//. b:1
+//. c:1
+// cbaebabacd
+// c:1 diff-- => 2
+// b:1 diff-- =>1
+// a:1 diff = 0
+// [0]
+
+// [cbae]
+// e: 1 
+// [bae]
+// c: 0 diff ++
+
+//diff == 3
+
+// Example input
+// s = "aaaaaaa"
+// p = "aaa"
+
+// a: 3
+// diff 3
+z
+// aa diff: 1
+// 
+
+public List<Integer> findAnagrams(String s, String p) {
+
+    int[] charFreqofS = new int[256];
+    int[] charFreqofP = new int[256];
+    int k = p.length();
+
+    for (int i = 0; i < p.length(); i++) {
+        charFreqofP[p.charAt(i)] ++;
+    }
+
+    int diff = k;
+    List<Integer> result = new ArrayList<>();
+
+    for (int i = 0; i < s.length(); i++) {
+        // add new char
+        cur = s.charAt(i); // a. aa. aaa.  aaaa 
+        charFreqofS[cur]++; // a: 1. 2. 3. 4
+        if (charFreqofS[cur] <= charFreqofP[cur]) {
+            diff--; // 2 1 0
+        }
+
+        // delete the tail
+        if (i > k - 1) {
+            tail = s.charAt(i - k + 1); 
+            charFreqofS[tail] --; // a: 3
+            if (charFreqofS[tail] <  charFreqofP[tail]) {
+                diff ++; 
+            }
+        }
+
+        if (diff == 0) {
+            result.add(i - k + 1); // 0 1 
+        }
+
+    }
+
+    return result;
+
+
+}
